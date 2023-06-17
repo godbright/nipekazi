@@ -8,6 +8,7 @@ Color greenColor = const Color(0XFF00B17A);
 Color scaffoldColor = const Color(0XFFFDFFFE);
 Color greyColor = const Color(0XFF888888);
 Color lightgrey = Color.fromARGB(255, 110, 110, 110);
+Color purpleColor = const Color(0XFF312651);
 
 Color labelColor = const Color(0XFF939393);
 Color hintColor = const Color(0XFFE7E7E7);

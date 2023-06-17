@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nipekazi/Posts/Views/MyPosts.dart';
 import 'package:nipekazi/Posts/Views/PostLanding.dart';
+import 'package:nipekazi/Widgets/heading.dart';
 import 'package:nipekazi/constants/colors.dart';
 
 class Post extends StatefulWidget {
@@ -23,17 +24,7 @@ class _PostState extends State<Post> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 30),
-              child: Text(
-                "My Posts",
-                style: GoogleFonts.poppins(
-                    color: wordColors, fontWeight: FontWeight.w400),
-              ),
-            ),
-          ),
+          title: HeadingWidget(title: "My Posts"),
           bottom: TabBar(
             onTap: (value) {
               // if (value == 0) {

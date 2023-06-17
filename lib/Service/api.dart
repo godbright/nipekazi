@@ -4,7 +4,7 @@ import 'package:get/utils.dart';
 import 'package:http/http.dart' as http;
 
 class CallApi {
-  final String _url = 'http://tafes.afyasasa.io/api/';
+  final String _url = 'https://nihudumietz.co.tz/api/';
 
   postData(data, apiUrl) async {
     var fullUrl = _url + apiUrl;

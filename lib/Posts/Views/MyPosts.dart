@@ -17,33 +17,33 @@ class _MyPostsState extends State<MyPosts> {
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
   ];
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nipekazi/MarketPlace/Views/market_place.dart';
+import 'package:nipekazi/MarketPlace/Views/single_product.dart';
+import 'package:nipekazi/Widgets/limited_text.dart';
+import 'package:nipekazi/Widgets/search.dart';
 import 'package:nipekazi/constants/colors.dart';
 
 import '../../Posts/Model/Post.dart';
@@ -14,39 +19,37 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  TextEditingController search_controller = TextEditingController();
-
   List<Post> posts = [
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
     Post(
         description:
             'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image:
-            'https://assets.hermes.com/is/image/hermesproduct/quicker-sneaker--102190ZH09-worn-1-0-0-800-800_g.jpg',
-        title: 'Nahitaji Air Jordan ya kupanda'),
+        image: "assets/code.png",
+        title: 'Nahitaji Air Jordan ya kupanda',
+        comments: 20),
   ];
 
   @override
@@ -79,30 +82,66 @@ class _LandingPageState extends State<LandingPage> {
                   Icon(Icons.notification_add)
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                child: TextFormField(
-                  controller: search_controller,
-                  style: GoogleFonts.poppins(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(color: secondaryColor),
+              SearchWidget(),
+              Container(
+                width: size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 0.2, color: Colors.grey),
+                ),
+                margin: EdgeInsets.only(top: 12),
+                padding: EdgeInsets.all(15),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Find what you need without a \n hustle",
+                            style: GoogleFonts.poppins(
+                                color: wordColors,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Text(
+                              "Explore the marketplace now",
+                              style: GoogleFonts.poppins(
+                                  color: wordColors,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: (() {
+                              Get.to(() => MarketPlace());
+                            }),
+                            child: Container(
+                              height: size.height / 16,
+                              width: size.width * 0.3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: purpleColor),
+                              child: Center(
+                                child: Text(
+                                  "Market Place",
+                                  style: GoogleFonts.poppins(color: whiteColor),
+                                ),
+                              ),
+                            ),
+                          )
+                        ]),
+                    Positioned(
+                      top: -40,
+                      left: size.width * 0.35,
+                      child: Image.asset(
+                        "assets/cofee.png",
+                        width: size.width * 0.6,
+                      ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(color: secondaryColor),
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    focusColor: secondaryColor,
-                    hintText: 'What are you looking for?',
-                  ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -197,10 +236,10 @@ class _LandingPageState extends State<LandingPage> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "What are you looking for?",
+                  "What people are looking for",
                   style: GoogleFonts.poppins(
                     color: lightgrey,
-                    fontSize: 12,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -209,44 +248,51 @@ class _LandingPageState extends State<LandingPage> {
                 width: size.width,
                 child: GridView.builder(
                   scrollDirection: Axis.vertical,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 135.0,
-                      crossAxisSpacing: 20),
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10),
                   itemCount: posts.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
+                        Get.to(() => Products(
+                              descr: posts[index].description,
+                              image: posts[index].image,
+                              title: posts[index].title,
+                              comment: posts[index].comments,
+                            ));
                         setState(() {});
                       },
-                      child: Column(
-                        children: [
-                          Container(
-                            width:
-                                200, // Specify the desired width of the container
-                            height:
-                                200, // Specify the desired height of the container
-                            child: Image.network(
+                      child: Column(children: [
+                        Container(
+                          width: size
+                              .width, // Adjust the width property as per your requirement
+                          height: 90,
+
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.asset(
                               posts[index]
                                   .image, // Replace with your network image URL
+
                               fit: BoxFit
-                                  .contain, // Adjust the fit property as per your requirement
+                                  .cover, // Adjust the fit property as per your requirement
                             ),
                           ),
-                          Text(
-                            posts[index].title,
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: wordColors),
-                          ),
-                          SizedBox(height: size.height * 0.02),
-                          Text(
-                            posts[index].description,
-                            style: GoogleFonts.poppins(fontSize: 12),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Text(
+                          posts[index].title,
+                          style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: wordColors),
+                        ),
+                        SizedBox(height: size.height * 0.003),
+                        LimitedText(
+                            originalText: posts[index].description,
+                            wordLimit: 4),
+                      ]),
                     );
                   },
                 ),
