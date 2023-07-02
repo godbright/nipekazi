@@ -11,13 +11,22 @@ import 'package:nipekazi/Widgets/search.dart';
 import 'package:nipekazi/constants/colors.dart';
 
 class MarketComment extends StatefulWidget {
-  const MarketComment({super.key});
+  String descr;
+  String title;
+  int comment;
+  MarketComment(
+      {super.key,
+      required this.descr,
+      required this.title,
+      required this.comment});
 
   @override
   State<MarketComment> createState() => _MarketCommentState();
 }
 
 class _MarketCommentState extends State<MarketComment> {
+  TextEditingController comment_controller = TextEditingController();
+
   List<Post> posts = [
     Post(
       description:
@@ -58,6 +67,7 @@ class _MarketCommentState extends State<MarketComment> {
 
     return Scaffold(
       appBar: AppBar(
+        // leading: GestureDetector(),
         title: HeadingWidget(
           title: "MarketPlace",
         ),
@@ -67,10 +77,83 @@ class _MarketCommentState extends State<MarketComment> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(18),
-          margin: EdgeInsets.only(top: 5),
+          margin: EdgeInsets.only(top: 2),
+          padding: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/bag.png",
+                      height: 10,
+                      width: 10,
+                    ),
+                    SizedBox(
+                      width: size.width * 0.03,
+                    ),
+                    Text(widget.title, style: GoogleFonts.poppins())
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.1,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/comment_icon.png",
+                      width: 30,
+                      height: 30,
+                    ),
+                    Text(
+                      "   ${widget.comment} comments",
+                      style: GoogleFonts.poppins(),
+                    )
+                  ],
+                ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Image.asset(
+                      "assets/profile.png",
+                      height: 40,
+                      width: 40,
+                    ),
+                  ),
+                  Container(
+                    width: size.width * 0.7,
+                    height: size.height * 0.2,
+                    child: TextField(
+                      controller: comment_controller,
+                      style: GoogleFonts.poppins(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide(color: secondaryColor),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide(color: secondaryColor),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        focusColor: secondaryColor,
+                        hintText: 'Write a comment',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Container(
                 height: size.height,
                 width: size.width,

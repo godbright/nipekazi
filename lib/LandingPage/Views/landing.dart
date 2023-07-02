@@ -243,11 +243,12 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                 ),
               ),
-              Container(
-                height: size.height,
-                width: size.width,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    minHeight: size.height * 0.1, maxHeight: double.infinity),
                 child: GridView.builder(
-                  scrollDirection: Axis.vertical,
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 10.0,

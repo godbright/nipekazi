@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nipekazi/Home/views/Home.dart';
+import 'package:nipekazi/Login/controllers/LoginController.dart';
 import 'package:nipekazi/PasswordReset/View/forgotPassword.dart';
 import 'package:nipekazi/Registration/views/registration.dart';
 import 'package:nipekazi/constants/colors.dart';
@@ -24,7 +25,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool value = false;
   bool isvisible = false;
-
+  LoginController loginController = Get.find();
   String phone_Controller = "";
   TextEditingController pass_Controller = TextEditingController();
   bool isloading = false;
@@ -45,27 +46,14 @@ class _LoginState extends State<Login> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  // _register() async {
-  //   var data = {
-  //     'f_name': fname_Controller.text,
-  //     'l_name': lname_Controller.text,
-  //     'email': mail_Controller.text,
-  //     'phone': phone_Controller,
-  //     'password': pass_Controller.text,
-  //   };
-  //   if (fname_Controller.text.isNotEmpty &&
-  //       lname_Controller.text.isNotEmpty &&
-  //       mail_Controller.text.isNotEmpty &&
-  //       !mail_Controller.text.isEmail &&
-  //       pass_Controller.text.isNotEmpty) {
-  //     auth_controller.register(data);
-  //   } else {
-  //     setState(() {
-  //       isloading = false;
-  //     });
-  //     _showMsg("Please fill the form");
-  //   }
-  // }
+  login() {
+    var data = {
+      'email': phone_Controller,
+      'password': pass_Controller.text,
+      'device_name': "samsung A12",
+    };
+    loginController.login(data);
+  }
 
   @override
   Widget build(BuildContext context) {

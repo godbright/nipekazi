@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:nipekazi/Auth/views/auth.dart';
+import 'package:nipekazi/Login/controllers/LoginController.dart';
+import 'package:nipekazi/Registration/controllers/RegistrationController.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  LoginController loginController = Get.put(LoginController());
+  RegisterController registerController = Get.put(RegisterController());
 
   // This widget is the root of your application.
   @override

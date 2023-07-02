@@ -106,7 +106,8 @@ class Products extends StatelessWidget {
               child: Align(
                 child: GestureDetector(
                   onTap: (() {
-                    Get.to(MarketComment());
+                    Get.to(MarketComment(
+                        title: title, descr: descr, comment: comment));
                   }),
                   child: Container(
                       height: size.height / 14,

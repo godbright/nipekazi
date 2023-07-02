@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nipekazi/Login/View/Login.dart';
+import 'package:nipekazi/Registration/controllers/RegistrationController.dart';
 import 'package:nipekazi/constants/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,6 +21,7 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  RegisterController regController = Get.find();
   bool value = false;
   bool isvisible = false;
   TextEditingController fname_Controller = TextEditingController();
@@ -66,6 +68,20 @@ class _RegistrationState extends State<Registration> {
   //     _showMsg("Please fill the form");
   //   }
   // }
+  _register() async {
+    print("called");
+    var data = {
+      "user_id": "1",
+      "image": "",
+      // 'email': mail_Controller.text,
+      'f_name': fname_Controller.text,
+      'l_name': lname_Controller.text,
+      'phone': phone_Controller,
+      'password': pass_Controller.text,
+    };
+
+    await regController.registerUser(data);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +186,7 @@ class _RegistrationState extends State<Registration> {
                   height: size.height * 0.02,
                 ),
                 TextFormField(
-                    controller: mail_Controller,
+                    controller: pass_Controller,
                     style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -271,7 +287,7 @@ class _RegistrationState extends State<Registration> {
                   height: size.height / 80,
                 ),
                 // ignore: avoid_unnecessary_containers
-                isloading
+                regController.isloading.value == true
                     ? Container(
                         height: size.height / 16,
                         width: size.width / 1,
@@ -296,23 +312,22 @@ class _RegistrationState extends State<Registration> {
                               ),
                             )),
                       )
-                    : Container(
-                        height: size.height / 16,
-                        width: size.width / 1,
-                        decoration: BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isloading = true;
-                            });
-                            // _register();
-                          },
-                          child: Text(
-                            "Sign Up",
-                            style: GoogleFonts.poppins(
-                                color: Colors.white, fontSize: 17),
+                    : GestureDetector(
+                        onTap: () {
+                          _register();
+                        },
+                        child: Container(
+                          height: size.height / 16,
+                          width: size.width / 1,
+                          decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Center(
+                            child: Text(
+                              "Sign Up",
+                              style: GoogleFonts.poppins(
+                                  color: Colors.white, fontSize: 17),
+                            ),
                           ),
                         ),
                       ),
