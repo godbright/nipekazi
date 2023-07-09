@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:nipekazi/Posts/Controllers/post_controller.dart';
 import 'package:nipekazi/Posts/Views/DonePost.dart';
 import 'package:nipekazi/constants/colors.dart';
 
@@ -14,27 +19,56 @@ class NewPost extends StatefulWidget {
 }
 
 class _NewPostState extends State<NewPost> {
+  bool isloading = false;
+  TextEditingController product_Controller = TextEditingController();
+  TextEditingController descr_Controller = TextEditingController();
+
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
+  String base64Image = "";
+// Function to pick an image from camera or gallery
+  Future<void> getImage(ImageSource media) async {
+    final XFile? img = await picker.pickImage(source: media);
+
+    if (img != null) {
+      setState(() {
+        image = img;
+      });
+
+      // Obtain base64-encoded image
+      List<int> imageBytes = await img.readAsBytes();
+      base64Image = base64Encode(imageBytes);
+
+      // Use the base64Image as needed
+      print(base64Image);
+    } else {
+      // Handle the case when no image is picked
+      print('No image selected');
+    }
+  }
+
+  void clearImage() {
+    setState(() {
+      image = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    TextEditingController product_Controller = TextEditingController();
-    TextEditingController descr_Controller = TextEditingController();
+    PostController postController = Get.find();
+
+    postProduct() {
+      var data = {
+        "post_name": product_Controller.text,
+        "description": descr_Controller.text,
+        "image": base64Image
+      };
+
+      postController.postUpdate(data, "post/create");
+    }
 
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(size.height * 0.1),
-      //   child: AppBar(
-      //     leading: Image.asset("assets/back_arrow.png",
-      //         width: size.width * 0.1, height: size.height * 0.1),
-      //     title: Text(
-      //       "Post what you need",
-      //       style: GoogleFonts.poppins(
-      //           fontWeight: FontWeight.w600, color: wordColors, fontSize: 20),
-      //     ),
-      //     backgroundColor: whiteColor,
-      //     elevation: 0,
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(left: 20, right: 20, top: 10),
@@ -43,8 +77,13 @@ class _NewPostState extends State<NewPost> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset("assets/back_arrow.png",
-                    width: size.width * 0.05, height: size.height * 0.12),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset("assets/back_arrow.png",
+                      width: size.width * 0.05, height: size.height * 0.12),
+                ),
                 SizedBox(
                   width: size.width * 0.1,
                 ),
@@ -57,14 +96,66 @@ class _NewPostState extends State<NewPost> {
                 )
               ],
             ),
-            Image.asset("assets/camera.png",
-                width: size.width * 0.15, height: size.height * 0.1),
-            Text(
-              "Upload Photo",
-              style: GoogleFonts.poppins(color: secondaryColor),
+            GestureDetector(
+              onTap: () {
+                getImage(ImageSource.gallery);
+              },
+              child: image != null
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.file(
+                          //to show image, you type like this.
+                          File(image!.path),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: 150,
+                        ),
+                      ),
+                    )
+                  : Image.asset("assets/camera.png",
+                      width: size.width * 0.15, height: size.height * 0.1),
             ),
+            image != null
+                ? Text("")
+                : Text(
+                    "Upload Photo",
+                    style: GoogleFonts.poppins(color: secondaryColor),
+                  ),
             SizedBox(
-              height: size.height * 0.05,
+              height: size.height * 0.01,
+            ),
+            image != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          clearImage();
+                          getImage(ImageSource.gallery);
+                        },
+                        child: Text(
+                          "Change",
+                          style:
+                              GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          clearImage();
+                        },
+                        child: Text(
+                          "Remove",
+                          style:
+                              GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                        ),
+                      )
+                    ],
+                  )
+                : Container(),
+            SizedBox(
+              height: size.height * 0.01,
             ),
             Text(
               "Je unahitaji nini?",
@@ -128,7 +219,10 @@ class _NewPostState extends State<NewPost> {
             ),
             GestureDetector(
               onTap: (() {
-                Get.to(() => DonePost());
+                setState(() {
+                  isloading = true;
+                });
+                postProduct();
               }),
               child: Container(
                 margin: EdgeInsets.only(top: 20),
@@ -138,9 +232,13 @@ class _NewPostState extends State<NewPost> {
                     color: secondaryColor,
                     borderRadius: BorderRadius.circular(15)),
                 child: Center(
-                  child: Text("Post",
-                      style:
-                          GoogleFonts.poppins(color: whiteColor, fontSize: 15)),
+                  child: isloading
+                      ? CircularProgressIndicator(
+                          color: whiteColor,
+                        )
+                      : Text("Post",
+                          style: GoogleFonts.poppins(
+                              color: whiteColor, fontSize: 15)),
                 ),
               ),
             )

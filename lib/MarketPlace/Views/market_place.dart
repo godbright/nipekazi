@@ -4,7 +4,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nipekazi/MarketPlace/Views/single_product.dart';
+import 'package:nipekazi/Posts/Controllers/post_controller.dart';
 import 'package:nipekazi/Posts/Model/Post.dart';
+import 'package:nipekazi/Service/constats.dart';
 import 'package:nipekazi/Widgets/heading.dart';
 import 'package:nipekazi/Widgets/limited_text.dart';
 import 'package:nipekazi/Widgets/search.dart';
@@ -18,39 +20,7 @@ class MarketPlace extends StatefulWidget {
 }
 
 class _MarketPlaceState extends State<MarketPlace> {
-  List<Post> posts = [
-    Post(
-      description:
-          'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-      image: "assets/code.png",
-      title: 'Nahitaji Air Jordan ya kupanda',
-      comments: 20,
-    ),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-  ];
+  PostController postController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -84,15 +54,19 @@ class _MarketPlaceState extends State<MarketPlace> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 10.0,
                       crossAxisSpacing: 20),
-                  itemCount: posts.length,
+                  itemCount: postController.posts.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
                         Get.to(() => Products(
-                              descr: posts[index].description,
-                              image: posts[index].image,
-                              title: posts[index].title,
-                              comment: posts[index].comments,
+                              id: postController.posts[index].id,
+                              descr: postController.posts[index].description,
+                              image: postController.posts[index].image == " "
+                                  ? image_url +
+                                      postController.posts[index].image
+                                  : image_url + "1686201304.png",
+                              title: postController.posts[index].postName,
+                              comment: postController.posts[index].comments,
                             ));
                         setState(() {});
                       },
@@ -105,9 +79,12 @@ class _MarketPlaceState extends State<MarketPlace> {
 
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                              posts[index]
-                                  .image, // Replace with your network image URL
+                            child: Image.network(
+                              postController.posts[index].image == " "
+                                  ? image_url +
+                                      postController.posts[index].image
+                                  : image_url +
+                                      "1686201304.png", // Replace with your network image URL
 
                               fit: BoxFit
                                   .cover, // Adjust the fit property as per your requirement
@@ -115,7 +92,7 @@ class _MarketPlaceState extends State<MarketPlace> {
                           ),
                         ),
                         Text(
-                          posts[index].title,
+                          postController.posts[index].postName,
                           style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -123,7 +100,8 @@ class _MarketPlaceState extends State<MarketPlace> {
                         ),
                         SizedBox(height: size.height * 0.003),
                         LimitedText(
-                            originalText: posts[index].description,
+                            originalText:
+                                postController.posts[index].description,
                             wordLimit: 10),
                       ])),
                     );

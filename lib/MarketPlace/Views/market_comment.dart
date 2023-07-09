@@ -3,19 +3,26 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nipekazi/MarketPlace/Controllers/CommentsController.dart';
+import 'package:nipekazi/MarketPlace/Controllers/LikesController.dart';
 import 'package:nipekazi/MarketPlace/Views/single_product.dart';
+import 'package:nipekazi/Posts/Controllers/post_controller.dart';
 import 'package:nipekazi/Posts/Model/Post.dart';
+import 'package:nipekazi/Service/constats.dart';
 import 'package:nipekazi/Widgets/heading.dart';
 import 'package:nipekazi/Widgets/limited_text.dart';
 import 'package:nipekazi/Widgets/search.dart';
 import 'package:nipekazi/constants/colors.dart';
+import 'package:date_format/date_format.dart';
 
 class MarketComment extends StatefulWidget {
+  int id;
   String descr;
   String title;
-  int comment;
+  String comment;
   MarketComment(
       {super.key,
+      required this.id,
       required this.descr,
       required this.title,
       required this.comment});
@@ -26,40 +33,23 @@ class MarketComment extends StatefulWidget {
 
 class _MarketCommentState extends State<MarketComment> {
   TextEditingController comment_controller = TextEditingController();
+  PostController postController = Get.find();
+  CommentController commentController = Get.find();
+  LikesController likesController = Get.find();
+  bool stopped = false;
+  postComment() {
+    var data = {"comment": comment_controller.text, "post_id": this.widget.id};
 
-  List<Post> posts = [
-    Post(
-      description:
-          'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-      image: "assets/code.png",
-      title: 'Nahitaji Air Jordan ya kupanda',
-      comments: 20,
-    ),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Nataka Jordan ya kupanda iliyo na ubora wa hali ya juu, namba ya ukubwa 10, rangi nyeusi au kijivu, inayofaa kwa matumizi ya kawaida na shughuli za kupanda milima. Ninapendelea kiatu ambacho kina teknolojia ya hali ya juu kama vile kinga ya maji, kinga ya toe, na tabaka ya ziada ya ulinzi dhidi ya mawe na vikwazo vingine vya asili. Tafadhali nionyeshe chaguzi zote za Jordan ya kupanda ambazo zinafaa mahitaji yangu. Ikiwa kuna brandi fulani ya Jordan ambayo ni maarufu kwa ubora na utendaji bora katika kupanda milima, tafadhali nishauri juu yake. Pia, ikiwa kuna vifaa vingine kama soksi maalum za kupanda milima ambazo zinaweza kuambatana na viatu hivi, tafadhali nionyeshe pia.Natarajia kupata maelezo kamili na picha za kiatu, pamoja na bei na maelezo ya muuzaji. Asante sana!',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-  ];
+    commentController.postComment(data, this.widget.id);
+
+    comment_controller.text = " ";
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +98,7 @@ class _MarketCommentState extends State<MarketComment> {
                       height: 30,
                     ),
                     Text(
-                      "   ${widget.comment} comments",
+                      "   ${commentController.comments.length} comments",
                       style: GoogleFonts.poppins(),
                     )
                   ],
@@ -127,13 +117,19 @@ class _MarketCommentState extends State<MarketComment> {
                   ),
                   Container(
                     width: size.width * 0.7,
-                    height: size.height * 0.2,
+                    height: size.height * 0.1,
                     child: TextField(
+                      onChanged: (value) => {
+                        setState(() {
+                          stopped = true;
+                        })
+                      },
                       controller: comment_controller,
                       style: GoogleFonts.poppins(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
                       ),
+                      maxLines: null,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -154,61 +150,190 @@ class _MarketCommentState extends State<MarketComment> {
                   ),
                 ],
               ),
-              Container(
-                height: size.height,
-                width: size.width,
-                child: GridView.builder(
-                  scrollDirection: Axis.vertical,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 20),
-                  itemCount: posts.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
+              stopped
+                  ? GestureDetector(
                       onTap: () {
-                        Get.to(() => Products(
-                              descr: posts[index].description,
-                              image: posts[index].image,
-                              title: posts[index].title,
-                              comment: posts[index].comments,
-                            ));
-                        setState(() {});
+                        postComment();
                       },
-                      child: Container(
-                          child: Column(children: [
-                        Container(
-                          width: size
-                              .width, // Adjust the width property as per your requirement
-                          height: 80,
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Container(
+                            height: size.height / 16,
+                            width: size.width * 0.4,
+                            margin: EdgeInsets.only(bottom: 20, top: 1),
+                            decoration: BoxDecoration(
+                                color: secondaryColor,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Center(
+                                child: commentController.loading.value == true
+                                    ? CircularProgressIndicator(
+                                        color: whiteColor,
+                                      )
+                                    : Text(
+                                        "Post Comment",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.white),
+                                      ))),
+                      ))
+                  : Container(),
+              Obx(() {
+                return Container(
+                    height: size.height,
+                    width: size.width,
+                    child: commentController.loading.value
+                        ? Center(
+                            child: CircularProgressIndicator(
+                            color: secondaryColor,
+                          ))
+                        : commentController.comments.length == 0
+                            ? Text(
+                                "No comments",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: wordColors),
+                              )
+                            : ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: commentController.comments.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                      child: Column(children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                "assets/profile.png",
+                                                height: 40,
+                                                width: 40,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "${commentController.comments[index].createdBy.fName}  ${commentController.comments[index].createdBy.lName}",
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: wordColors),
+                                                  ),
+                                                  Text(
+                                                    formatDate(
+                                                        commentController
+                                                            .comments[index]
+                                                            .createdAt,
+                                                        [
+                                                          yyyy,
+                                                          " ",
+                                                          MM,
+                                                          '  ',
+                                                          'at',
+                                                          '  ',
+                                                          HH,
+                                                          ':',
+                                                          nn,
+                                                        ]),
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.08,
+                                        ),
+                                        Image.asset(
+                                          "assets/menu.png",
+                                          height: 20,
+                                          width: 20,
+                                        )
+                                      ],
+                                    ),
+                                    LimitedText(
+                                        originalText: commentController
+                                            .comments[index].comment,
+                                        wordLimit: 15),
+                                    postController.posts[index].image == ""
+                                        ? SizedBox(
+                                            height: 1,
+                                          )
+                                        : Container(
+                                            width: size
+                                                .width, // Adjust the width property as per your requirement
+                                            height: 80,
 
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                              posts[index]
-                                  .image, // Replace with your network image URL
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              child: Image.network(
+                                                image_url +
+                                                    postController.posts[index]
+                                                        .image, // Replace with your network image URL
 
-                              fit: BoxFit
-                                  .cover, // Adjust the fit property as per your requirement
-                            ),
-                          ),
-                        ),
-                        Text(
-                          posts[index].title,
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: wordColors),
-                        ),
-                        SizedBox(height: size.height * 0.003),
-                        LimitedText(
-                            originalText: posts[index].description,
-                            wordLimit: 10),
-                      ])),
-                    );
-                  },
-                ),
-              ),
+                                                fit: BoxFit
+                                                    .cover, // Adjust the fit property as per your requirement
+                                              ),
+                                            ),
+                                          ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Talk to the owner",
+                                            style: GoogleFonts.poppins(
+                                                color: greyColor),
+                                          ),
+                                          Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  likesController
+                                                      .postLike(this.widget.id);
+                                                },
+                                                child: Image.asset(
+                                                  "assets/like.png",
+                                                  height: 20,
+                                                  width: 20,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                likesController.like["data"]
+                                                    .toString(),
+                                                style: GoogleFonts.poppins(
+                                                    color: greyColor,
+                                                    fontSize: 11),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.02,
+                                    )
+                                  ]));
+                                },
+                              ));
+              }),
             ],
           ),
         ),

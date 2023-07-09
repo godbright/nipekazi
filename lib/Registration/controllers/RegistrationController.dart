@@ -22,17 +22,16 @@ class RegisterController extends GetxController {
   }
 
   registerUser(data) async {
-    print(data);
     isloading.value = true;
     try {
       var res = await CallApi().postData(data, 'register');
       var body = json.decode(res.body);
-      print(body);
-      if (body['success'] == true) {
+
+      if (body['status'] == 0) {
         isloading.value = false;
         SharedPreferences localStorage = await SharedPreferences.getInstance();
-        localStorage.setString('token', body['token']);
-        localStorage.setString('user', json.encode(body['user']));
+        localStorage.setString('token', json.encode(body['data']["token"]));
+        localStorage.setString('user', json.encode(body['data']));
         Get.offAll(() => Home());
       } else {
         isloading.value = false;

@@ -8,14 +8,14 @@ import 'package:nipekazi/Posts/Views/PostLanding.dart';
 import 'package:nipekazi/Widgets/heading.dart';
 import 'package:nipekazi/constants/colors.dart';
 
-class Post extends StatefulWidget {
-  const Post({super.key});
+class PostScreen extends StatefulWidget {
+  const PostScreen({super.key});
 
   @override
-  State<Post> createState() => _PostState();
+  State<PostScreen> createState() => _PostScreenState();
 }
 
-class _PostState extends State<Post> {
+class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

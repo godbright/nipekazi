@@ -3,7 +3,9 @@ import 'package:flutter/src/animation/animation_controller.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/ticker_provider.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nipekazi/MarketPlace/Views/market_place.dart';
 import 'package:nipekazi/constants/colors.dart';
 
 class SearchWidget extends StatefulWidget {
@@ -41,6 +43,8 @@ class _SearchWidgetState extends State<SearchWidget>
           fontSize: 17,
           fontWeight: FontWeight.w400,
         ),
+
+        onTap: () {},
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),

@@ -21,6 +21,8 @@ class LimitedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String limitedText = limitWords(originalText, wordLimit);
-    return Text(limitedText, style: GoogleFonts.poppins(fontSize: 12));
+    return Align(
+        alignment: Alignment.topLeft,
+        child: Text(limitedText, style: GoogleFonts.poppins(fontSize: 12)));
   }
 }

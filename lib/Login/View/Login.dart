@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
   _showMsg(msg) {
     //
     final snackBar = SnackBar(
-      backgroundColor: const Color(0XFFDB0000),
+      backgroundColor: secondaryColor,
       content: Text(
         msg,
         textAlign: TextAlign.center,
@@ -48,9 +48,8 @@ class _LoginState extends State<Login> {
 
   login() {
     var data = {
-      'email': phone_Controller,
+      'phone': phone_Controller,
       'password': pass_Controller.text,
-      'device_name': "samsung A12",
     };
     loginController.login(data);
   }
@@ -58,176 +57,177 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: whiteColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding:
-                EdgeInsets.only(top: size.height * 0.1, left: 20, right: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.height * 0.2,
-                ),
-                Text(
-                  "Login in to Your Account",
-                  style: GoogleFonts.poppins(
-                    color: wordColors,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+    return Obx(() {
+      return Scaffold(
+          backgroundColor: whiteColor,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding:
+                  EdgeInsets.only(top: size.height * 0.1, left: 20, right: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: size.height * 0.2,
                   ),
-                ),
-                SizedBox(
-                  height: size.height / 40,
-                ),
-                IntlPhoneField(
-                  disableLengthCheck: true,
-                  textAlign: TextAlign.start,
-                  keyboardType: TextInputType.phone,
-                  cursorColor: Colors.grey.shade100,
-                  dropdownIcon: Icon(
-                    Icons.arrow_drop_down,
-                    color: blackColor,
-                  ),
-                  flagsButtonPadding: EdgeInsets.all(size.height / 60),
-                  dropdownIconPosition: IconPosition.trailing,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(color: secondaryColor),
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    focusColor: secondaryColor,
-                    hintText: 'Phone Number',
-                  ),
-                  initialCountryCode: 'TZ',
-                  onChanged: (phone) {
-                    phone_Controller = phone.completeNumber;
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-
-                TextFormField(
-                    controller: pass_Controller,
-                    style: const TextStyle(
+                  Text(
+                    "Login in to Your Account",
+                    style: GoogleFonts.poppins(
+                      color: wordColors,
                       fontSize: 17,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.bold,
                     ),
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: secondaryColor),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isvisible = !isvisible;
-                            });
-                          },
-                          icon: isvisible
-                              ? Icon(Icons.visibility)
-                              : Icon(Icons.visibility_off),
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                        filled: true,
-                        fillColor: Colors.grey.shade100,
-                        hintText: "Password")),
-                SizedBox(
-                  height: size.height / 80,
-                ),
-
-                SizedBox(
-                  height: size.height / 70,
-                ),
-
-                GestureDetector(
-                  onTap: (() => {Get.to(() => ForgotPassword())}),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("Forgot the Password ?",
-                        style: GoogleFonts.poppins(
-                          color: secondaryColor,
-                        )),
                   ),
-                ),
-                SizedBox(
-                  height: size.height / 80,
-                ),
-                // ignore: avoid_unnecessary_containers
-                isloading
-                    ? Container(
-                        height: size.height / 16,
-                        width: size.width / 1,
-                        decoration: BoxDecoration(
+                  SizedBox(
+                    height: size.height / 40,
+                  ),
+                  IntlPhoneField(
+                    disableLengthCheck: true,
+                    textAlign: TextAlign.start,
+                    keyboardType: TextInputType.phone,
+                    cursorColor: Colors.grey.shade100,
+                    dropdownIcon: Icon(
+                      Icons.arrow_drop_down,
+                      color: blackColor,
+                    ),
+                    flagsButtonPadding: EdgeInsets.all(size.height / 60),
+                    dropdownIconPosition: IconPosition.trailing,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide(color: secondaryColor),
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      focusColor: secondaryColor,
+                      hintText: 'Phone Number',
+                    ),
+                    initialCountryCode: 'TZ',
+                    onChanged: (phone) {
+                      phone_Controller = phone.number;
+                    },
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+
+                  TextFormField(
+                      controller: pass_Controller,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(color: secondaryColor),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isvisible = !isvisible;
+                              });
+                            },
+                            icon: isvisible
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 12),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+                          hintText: "Password")),
+                  SizedBox(
+                    height: size.height / 80,
+                  ),
+
+                  SizedBox(
+                    height: size.height / 70,
+                  ),
+
+                  GestureDetector(
+                    onTap: (() => {Get.to(() => ForgotPassword())}),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text("Forgot the Password ?",
+                          style: GoogleFonts.poppins(
                             color: secondaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextButton(
-                            onPressed: () {},
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text(
-                                    "Loading",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 17),
-                                  ),
-                                  // CircularProgressIndicator()
-                                ],
-                              ),
-                            )),
-                      )
-                    : Container(
-                        height: size.height / 16,
-                        width: size.width / 1,
-                        decoration: BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextButton(
-                          onPressed: () {
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height / 80,
+                  ),
+                  // ignore: avoid_unnecessary_containers
+                  loginController.isloading.value
+                      ? Container(
+                          height: size.height / 16,
+                          width: size.width / 1,
+                          decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                    // CircularProgressIndicator()
+                                  ],
+                                ),
+                              )),
+                        )
+                      : GestureDetector(
+                          onTap: () {
                             setState(() {
-                              isloading = true;
-                              Get.offAll(() => Home());
+                              login();
                             });
                             // _register();
                           },
-                          child: Text("Sign in",
-                              style: GoogleFonts.poppins(
-                                  color: whiteColor, fontSize: 15)),
+                          child: Container(
+                            height: size.height / 16,
+                            width: size.width / 1,
+                            decoration: BoxDecoration(
+                                color: secondaryColor,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Center(
+                              child: Text("Sign in",
+                                  style: GoogleFonts.poppins(
+                                      color: whiteColor, fontSize: 15)),
+                            ),
+                          ),
                         ),
+                  SizedBox(
+                    height: size.height / 70,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const Registration());
+                    },
+                    child: RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                        text: 'Dont have an account? ',
+                        style: GoogleFonts.poppins(color: Color(0XFF979797)),
                       ),
-                SizedBox(
-                  height: size.height / 70,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => const Registration());
-                  },
-                  child: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                      text: 'Dont have an account? ',
-                      style: GoogleFonts.poppins(color: Color(0XFF979797)),
-                    ),
-                    TextSpan(
-                      text: 'Sign up',
-                      style: GoogleFonts.poppins(
-                          color: secondaryColor,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ])),
-                )
-              ],
+                      TextSpan(
+                        text: 'Sign up',
+                        style: GoogleFonts.poppins(
+                            color: secondaryColor,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ])),
+                  )
+                ],
+              ),
             ),
-          ),
-        ));
+          ));
+    });
   }
 }

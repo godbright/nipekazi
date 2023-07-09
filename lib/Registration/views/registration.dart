@@ -47,33 +47,9 @@ class _RegistrationState extends State<Registration> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  // _register() async {
-  //   var data = {
-  //     'f_name': fname_Controller.text,
-  //     'l_name': lname_Controller.text,
-  //     'email': mail_Controller.text,
-  //     'phone': phone_Controller,
-  //     'password': pass_Controller.text,
-  //   };
-  //   if (fname_Controller.text.isNotEmpty &&
-  //       lname_Controller.text.isNotEmpty &&
-  //       mail_Controller.text.isNotEmpty &&
-  //       !mail_Controller.text.isEmail &&
-  //       pass_Controller.text.isNotEmpty) {
-  //     auth_controller.register(data);
-  //   } else {
-  //     setState(() {
-  //       isloading = false;
-  //     });
-  //     _showMsg("Please fill the form");
-  //   }
-  // }
   _register() async {
     print("called");
     var data = {
-      "user_id": "1",
-      "image": "",
-      // 'email': mail_Controller.text,
       'f_name': fname_Controller.text,
       'l_name': lname_Controller.text,
       'phone': phone_Controller,
@@ -323,11 +299,14 @@ class _RegistrationState extends State<Registration> {
                               color: secondaryColor,
                               borderRadius: BorderRadius.circular(15)),
                           child: Center(
-                            child: Text(
-                              "Sign Up",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.white, fontSize: 17),
-                            ),
+                            child: regController.isloading.value == false
+                                ? Text(
+                                    "Sign Up",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white, fontSize: 17),
+                                  )
+                                : CircularProgressIndicator(
+                                    color: whiteColor, strokeWidth: 3),
                           ),
                         ),
                       ),

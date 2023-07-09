@@ -3,8 +3,15 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nipekazi/Login/controllers/LoginController.dart';
 import 'package:nipekazi/MarketPlace/Views/market_place.dart';
 import 'package:nipekazi/MarketPlace/Views/single_product.dart';
+import 'package:nipekazi/Notification/View/notifications.dart';
+import 'package:nipekazi/Posts/Controllers/post_controller.dart';
+import 'package:nipekazi/Posts/Views/PostLanding.dart';
+import 'package:nipekazi/Service/constats.dart';
+import 'package:nipekazi/Posts/Views/posts.dart';
+
 import 'package:nipekazi/Widgets/limited_text.dart';
 import 'package:nipekazi/Widgets/search.dart';
 import 'package:nipekazi/constants/colors.dart';
@@ -19,38 +26,14 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  List<Post> posts = [
-    Post(
-        description:
-            'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-    Post(
-        description:
-            'Natafuta magauni, sketi, tshirts na mashati ya kiume ya mtumba size large',
-        image: "assets/code.png",
-        title: 'Nahitaji Air Jordan ya kupanda',
-        comments: 20),
-  ];
+  bool isSelected = false;
+  PostController postController = Get.find();
+  LoginController loginController = Get.find();
+
+  getPosts() {
+    //calling the post service to retrive posts
+    postController.getPosts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +52,8 @@ class _LandingPageState extends State<LandingPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hello Godbright",
-                        style: GoogleFonts.poppins(fontSize: 12),
+                        "Hello ${loginController.user["f_name"]}",
+                        style: GoogleFonts.poppins(fontSize: 13),
                       ),
                       Text(
                         "Get what you need fast",
@@ -79,11 +62,16 @@ class _LandingPageState extends State<LandingPage> {
                       )
                     ],
                   ),
-                  Icon(Icons.notification_add)
+                  GestureDetector(
+                      onTap: () => {
+                            Get.to(() => NotificationScreen()),
+                          },
+                      child: Icon(Icons.notification_add))
                 ],
               ),
               SearchWidget(),
               Container(
+                height: size.height * 0.2,
                 width: size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -114,24 +102,6 @@ class _LandingPageState extends State<LandingPage> {
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: (() {
-                              Get.to(() => MarketPlace());
-                            }),
-                            child: Container(
-                              height: size.height / 16,
-                              width: size.width * 0.3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: purpleColor),
-                              child: Center(
-                                child: Text(
-                                  "Market Place",
-                                  style: GoogleFonts.poppins(color: whiteColor),
-                                ),
-                              ),
-                            ),
-                          )
                         ]),
                     Positioned(
                       top: -40,
@@ -146,6 +116,68 @@ class _LandingPageState extends State<LandingPage> {
               ),
               SizedBox(
                 height: 20,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: (() {
+                        Get.to(() => PostScreen());
+                        setState(() {
+                          isSelected = true;
+                        });
+                      }),
+                      child: Container(
+                        height: size.height / 16,
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: isSelected ? purpleColor : purpleColor,
+                              width: 1,
+                            ),
+                            color: isSelected ? purpleColor : whiteColor),
+                        child: Center(
+                          child: Text(
+                            "Post",
+                            style: GoogleFonts.poppins(
+                              color: isSelected ? whiteColor : purpleColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (() {
+                        Get.to(() => MarketPlace());
+                        setState(() {
+                          isSelected = false;
+                        });
+                      }),
+                      child: Container(
+                        height: size.height / 16,
+                        width: size.width * 0.3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: isSelected ? purpleColor : purpleColor,
+                              width: 1,
+                            ),
+                            color: isSelected ? whiteColor : purpleColor),
+                        child: Center(
+                          child: Text(
+                            "Market Place",
+                            style: GoogleFonts.poppins(
+                                color: isSelected ? purpleColor : whiteColor),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
               Align(
                 alignment: Alignment.topLeft,
@@ -246,57 +278,66 @@ class _LandingPageState extends State<LandingPage> {
               ConstrainedBox(
                 constraints: BoxConstraints(
                     minHeight: size.height * 0.1, maxHeight: double.infinity),
-                child: GridView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 10),
-                  itemCount: posts.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(() => Products(
-                              descr: posts[index].description,
-                              image: posts[index].image,
-                              title: posts[index].title,
-                              comment: posts[index].comments,
-                            ));
-                        setState(() {});
-                      },
-                      child: Column(children: [
-                        Container(
-                          width: size
-                              .width, // Adjust the width property as per your requirement
-                          height: 90,
+                child: Obx(() {
+                  return GridView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10),
+                    itemCount: postController.posts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(() => Products(
+                                id: postController.posts[index].id,
+                                descr: postController.posts[index].description,
+                                image: postController.posts[index].image != ""
+                                    ? image_url +
+                                        postController.posts[index].image
+                                    : image_url + "1686201304.png",
+                                title: postController.posts[index].postName,
+                                comment: postController.posts[index].comments,
+                              ));
+                          setState(() {});
+                        },
+                        child: Column(children: [
+                          Container(
+                            width: size
+                                .width, // Adjust the width property as per your requirement
+                            height: 90,
 
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                              posts[index]
-                                  .image, // Replace with your network image URL
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.network(
+                                  postController.posts[index].image != ""
+                                      ? image_url +
+                                          postController.posts[index].image
+                                      : image_url +
+                                          "1686201304.png", // Replace with your network image URL
 
-                              fit: BoxFit
-                                  .cover, // Adjust the fit property as per your requirement
-                            ),
+                                  fit: BoxFit
+                                      .cover, // Adjust the fit property as per your requirement
+                                )),
                           ),
-                        ),
-                        Text(
-                          posts[index].title,
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: wordColors),
-                        ),
-                        SizedBox(height: size.height * 0.003),
-                        LimitedText(
-                            originalText: posts[index].description,
-                            wordLimit: 4),
-                      ]),
-                    );
-                  },
-                ),
+                          Text(
+                            postController.posts[index].postName,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: wordColors),
+                          ),
+                          SizedBox(height: size.height * 0.003),
+                          LimitedText(
+                              originalText:
+                                  postController.posts[index].description,
+                              wordLimit: 4),
+                        ]),
+                      );
+                    },
+                  );
+                }),
               )
             ],
           )),

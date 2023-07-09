@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nipekazi/MarketPlace/Model/CommentsModel.dart';
+import 'package:nipekazi/MarketPlace/Model/LikesModel.dart';
 import 'package:nipekazi/Posts/Model/Post.dart';
 import 'package:nipekazi/Posts/Views/DonePost.dart';
 
@@ -9,11 +11,10 @@ import 'package:nipekazi/Service/api.dart';
 import 'package:nipekazi/constants/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PostController extends GetxController {
+class LikesController extends GetxController {
   var loading = false.obs;
   var token = "".obs;
-  var posts = <Post>[].obs;
-  var personal_posts = <Post>[].obs;
+  var like = {}.obs;
 
   @override
   void onInit() {
@@ -47,59 +48,61 @@ class PostController extends GetxController {
     token.value = localStorage.getString('token')!;
   }
 
-  getPosts() async {
+  getLikes(id) async {
     try {
       loading.value = true;
-      var res = await CallApi().getData("post/list", token);
+      var res = await CallApi().getData("like/all/$id", token);
 
       var jsonResponse = json.decode(res.body); // Parse the response body
 
       if (jsonResponse['status'] == 0) {
-        var dataArray =
-            jsonResponse['data']; // Access the 'data' array directly
-        posts.value =
-            postFromJson(json.encode(dataArray)); // Assign it to your variable
+        loading.value = false;
+        like.value = jsonResponse; // Assign it to your variable
+        print("likes");
+        print(jsonResponse); //
       }
-      loading.value = false;
     } catch (e) {
       print(e);
       loading.value = false;
     }
   }
 
-  getPostByPerson() async {
-    try {
-      loading.value = true;
-      var res = await CallApi().getData("post/my/list", token);
-
-      var jsonResponse = json.decode(res.body); // Parse the response body
-
-      if (jsonResponse['status'] == 0) {
-        var dataArray =
-            jsonResponse['data']; // Access the 'data' array directly
-        personal_posts.value =
-            postFromJson(json.encode(dataArray)); // Assign it to your variable
-      }
-      loading.value = false;
-    } catch (e) {
-      print(e);
-      loading.value = false;
-    }
-  }
-
-  postUpdate(data, apiUrl) async {
+  postLike(id) async {
     loading.value = true;
 
     try {
-      var response = await CallApi().postData(data, apiUrl, token);
+      var response = await CallApi().getData("like/add/$id", token);
       // getAppointments();
       loading.value = false;
       var jsonResponse = json.decode(response.body);
-      print("the dara");
-      print(jsonResponse);
 
-      if (jsonResponse["status"] == 0) {
-        Get.to(() => DonePost());
+      if (jsonResponse["status"] == 2) {
+        // Get.to(() => DonePost());
+        successMessage(jsonResponse["message"]);
+        getLikes(id);
+      } else {
+        errorMessage(jsonResponse["message"]);
+      }
+    } catch (e) {
+      print(e);
+      successMessage("Please check your network");
+      loading.value = false;
+    }
+  }
+
+  postunLike(id) async {
+    loading.value = true;
+
+    try {
+      var response = await CallApi().getData("like/delete/$id", token);
+      // getAppointments();
+      loading.value = false;
+      var jsonResponse = json.decode(response.body);
+
+      if (jsonResponse["status"] == 2) {
+        // Get.to(() => DonePost());
+        successMessage(jsonResponse["message"]);
+        getLikes(id);
       } else {
         errorMessage(jsonResponse["message"]);
       }
